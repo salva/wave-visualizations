@@ -5,10 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Wave Field Visualization</title>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.min.js"></script>
+    <style>
+      #controls {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        background-color: white;
+        border: 1px solid #ccc;
+        padding: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      }
+
+      #fieldValues {
+        margin-top: 20px; /* Adjusted margin for space below controls */
+      }
+    </style>
   </head>
   <body>
-
-    <div>
+    <div id="controls">
       <label for="wavelengthSlider">Wavelength:</label>
       <input type="range" id="wavelengthSlider" min="20" max="300" value="100">
       <span id="wavelengthValue">100</span>
@@ -35,21 +49,18 @@
 
       <label for="attenuationSlider">Distance Attenuation (0-2):</label>
       <input type="range" id="attenuationSlider" min="0" max="2" step="0.1" value="1">
-      <span id="attenuationValue">0</span>
+      <span id="attenuationValue">1</span>
 
       <br>
 
       <label for="distanceScaleSlider">Distance Scale (0.01 to 5):</label>
       <input type="range" id="distanceScaleSlider" min="0.01" max="5" step="0.01" value="1">
       <span id="distanceScaleValue">1.00</span>
-
-      <br><br>
-
-      <textarea id="fieldValues" rows="4" cols="50" readonly></textarea>
     </div>
 
-    <script>
+    <textarea id="fieldValues" rows="4" cols="50" style="position: absolute; right: 10px; top: 180px;"></textarea>
 
+    <script>
       let source1, source2;
       let wavelength = 100;
       let distanceBetweenSources = 240;
