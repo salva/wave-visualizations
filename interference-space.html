@@ -33,8 +33,8 @@
 
       <br>
 
-      <label for="attenuationSlider">Distance Attenuation (0-3):</label>
-      <input type="range" id="attenuationSlider" min="0" max="3" step="0.1" value="0">
+      <label for="attenuationSlider">Distance Attenuation (0-2):</label>
+      <input type="range" id="attenuationSlider" min="0" max="2" step="0.1" value="1">
       <span id="attenuationValue">0</span>
 
       <br>
@@ -42,6 +42,10 @@
       <label for="distanceScaleSlider">Distance Scale (0.01 to 5):</label>
       <input type="range" id="distanceScaleSlider" min="0.01" max="5" step="0.01" value="1">
       <span id="distanceScaleValue">1.00</span>
+
+      <br><br>
+
+      <textarea id="fieldValues" rows="4" cols="50" readonly></textarea>
     </div>
 
     <script>
@@ -55,8 +59,10 @@
       let distanceScale = 1;
       let sourceDiameter = 20;
 
+      let maxAmplitude = 2;
+
       function setup() {
-          createCanvas(800, 600);
+          createCanvas(1600, 1000);
           colorMode(HSB, 360, 100, 100);
           noLoop();
 
@@ -97,6 +103,10 @@
           });
       }
 
+      function dist2phase(d, shift) {
+          return TWO_PI * d / wavelength + shift;
+      }
+
       function redrawField() {
           wavelength = parseFloat(document.getElementById('wavelengthSlider').value);
           distanceBetweenSources = parseFloat(document.getElementById('distanceSlider').value);
@@ -105,9 +115,12 @@
           attenuationPower = parseFloat(document.getElementById('attenuationSlider').value);
           distanceScale = parseFloat(document.getElementById('distanceScaleSlider').value);
 
+          maxAmplitude =
+              Math.pow(0.5 * sourceDiameter * distanceScale, -attenuationPower) +
+              Math.pow(0.5 * (distanceBetweenSources - sourceDiameter) * distanceScale, -attenuationPower);
+
           source1 = createVector(width / 2 - distanceBetweenSources / 2, height * 0.5);
           source2 = createVector(width / 2 + distanceBetweenSources / 2, height * 0.5);
-          maxAmplitude = (1.0 + amplitudeRatio) * Math.pow(0.5 * sourceDiameter * distanceScale, -attenuationPower);
 
           background(0, 0, 100);
 
@@ -118,16 +131,16 @@
                   let d2 = dist(x, y, source2.x, source2.y) * distanceScale;
 
                   let k = TWO_PI / wavelength;
-                  let phase1 = k * d1 - phaseShift / 2;
-                  let phase2 = k * d2 + phaseShift / 2;
+                  let phase1 = dist2phase(d1, -phaseShift / 2)
+                  let phase2 = dist2phase(d2,  phaseShift / 2);
 
-                  let attenuation1 = (d1 !== 0) ? 1 / Math.pow(d1, attenuationPower) : 1;
-                  let attenuation2 = (d2 !== 0) ? 1 / Math.pow(d2, attenuationPower) : 1;
+                  let attenuation1 = (d1 !== 0) ? Math.pow(d1, -attenuationPower) : 1;
+                  let attenuation2 = (d2 !== 0) ? Math.pow(d2, -attenuationPower) : 1;
 
                   let sumReal = attenuation1 * cos(phase1) + amplitudeRatio * attenuation2 * cos(phase2);
                   let sumImag = attenuation1 * sin(phase1) + amplitudeRatio * attenuation2 * sin(phase2);
 
-                  let amplitude = sqrt(sumReal * sumReal + sumImag * sumImag) / (1 + amplitudeRatio);
+                  let amplitude = sqrt(sumReal * sumReal + sumImag * sumImag);
                   let phase = atan2(sumImag, sumReal);
 
                   let hue = degrees(phase);
@@ -151,12 +164,12 @@
       function drawSources() {
           let k = TWO_PI / wavelength;
 
-          let phase1 = k * 0 - phaseShift / 2;
+          let phase1 = dist2phase(0.5 * sourceDiameter, -0.5*phaseShift);
           let hue1 = degrees(phase1);
           if (hue1 < 0) hue1 += 360;
           let c1 = color(hue1, 100, 100);
 
-          let phase2 = k * 0 + phaseShift / 2;
+          let phase2 = dist2phase(0.5 * sourceDiameter, +0.5*phaseShift);
           let hue2 = degrees(phase2);
           if (hue2 < 0) hue2 += 360;
           let c2 = color(hue2, 100, 100);
@@ -174,6 +187,42 @@
           stroke(0);
           noFill();
           ellipse(source2.x, source2.y, sourceDiameter, sourceDiameter);
+      }
+
+      function nicePhase(phase) {
+          phase = phase % (2 * PI);
+          if (phase > PI) {
+              phase -= 2 * PI;
+          } else if (phase <= -PI) {
+              phase += 2 * PI;
+          }
+          return Math.round(phase * (180 / PI) * 10) / 10;
+      }
+
+      function niceAmplitude(amplitude) {
+          return Math.round(amplitude * 1000) / 1000;
+      }
+
+      function mouseMoved() {
+          if (mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseY < height) {
+              let d1 = dist(mouseX, mouseY, source1.x, source1.y) * distanceScale;
+              let d2 = dist(mouseX, mouseY, source2.x, source2.y) * distanceScale;
+
+              let phase1 = dist2phase(d1, -0.5 * phaseShift);
+              let phase2 = dist2phase(d2, +0.5 * phaseShift);
+
+              let amplitude1 = ((d1 !== 0) ? Math.pow(d1, -attenuationPower) : 1) / maxAmplitude;
+              let amplitude2 = ((d2 !== 0) ? Math.pow(d2, -attenuationPower) : 1) / maxAmplitude;
+
+              let sumReal = amplitude1 * cos(phase1) + amplitudeRatio * amplitude2 * cos(phase2);
+              let sumImag = amplitude1 * sin(phase1) + amplitudeRatio * amplitude2 * sin(phase2);
+
+              let amplitude = sqrt(sumReal * sumReal + sumImag * sumImag);
+              let phase = atan2(sumImag, sumReal);
+
+              document.getElementById('fieldValues').value =
+                  `x: ${mouseX}, y: ${mouseY}\nSource 1 amplitude: ${niceAmplitude(amplitude1)}, phase: ${nicePhase(phase1)}\nSource 2 amplitude: ${niceAmplitude(amplitude2)}, phase: ${nicePhase(phase2)}\nCombined amplitude: ${niceAmplitude(amplitude)}, phase: ${nicePhase(phase)}`;
+          }
       }
 
     </script>
