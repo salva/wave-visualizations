@@ -6,9 +6,50 @@
     <title>Interference Phenomenon</title>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.min.js"></script>
     <script src="simulator.js"></script>
+    <style>
+      #controls {
+        float: right;
+        width: 500px;
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+      #canvas-container {
+        float: left;
+      }
+      #explanation {
+        clear: both;
+        margin-top: 20px;
+      }
+    </style>
   </head>
   <body>
+    <div id="controls">
+      <label for="wallDistance">Wall distance:</label>
+      <input type="range" id="wallDistance" name="wallDistance" min="300" max="1200" value="475">
+      <span id="wallDistanceValue">475</span>
+      <br>
+      <label for="slitSpacing">Separation between holes:</label>
+      <input type="range" id="slitSpacing" name="slitSpacing" min="20" max="500" value="80">
+      <span id="slitSpacingValue">80</span>
+      <br>
+      <label for="waveAmplitude">Wave amplitude:</label>
+      <input type="range" id="waveAmplitude" name="waveAmplitude" min="1" max="20" value="7.5" step="0.1">
+      <span id="waveAmplitudeValue">7.5</span>
+      <br>
+      <label for="waveFrequency">Wave frequency:</Label>
+      <input type="range" id="waveFrequency" name="waveFrequency" min="0.05" max="1" value="0.2" step="0.01">
+      <span id="waveFrequencyValue">0.2</span>
+    </div>
+
     <div id="canvas-container"></div>
+
+
+    <div id="explanation">
+      <p>The graph illustrates the interference pattern resulting from the interaction of waves emanating from two distinct sources, represented by the slits. The vertical axis shows the amplitude of the resultant wave, while the horizontal axis represents the position across the observation screen. Peaks (maxima) indicate locations where waves constructively interfere, producing higher amplitudes, whereas troughs (minima) reflect areas of destructive interference, leading to reduced amplitudes. This interference pattern is a fundamental concept in wave physics, demonstrating how waves can interact with one another to create complex patterns.</p>
+    </div>
 
     <script>
       let canvasWidth = 1500;
@@ -35,25 +76,6 @@
       let graphSpacingRatio = 0.03;
       let markEndRatio = 0.02;
       let graph1X, graph2X, graph3X, markEndX;
-
     </script>
-
-    <div style="margin-top: 20px;">
-      <label for="wallDistance">Distance Between Walls:</label>
-      <input type="range" id="wallDistance" name="wallDistance" min="300" max="700" value="475">
-      <span id="wallDistanceValue">475</span>
-      <br>
-      <label for="slitSpacing">Separation Between Holes:</label>
-      <input type="range" id="slitSpacing" name="slitSpacing" min="20" max="200" value="80">
-      <span id="slitSpacingValue">80</span>
-      <br>
-      <label for="waveAmplitude">Wave Amplitude:</label>
-      <input type="range" id="waveAmplitude" name="waveAmplitude" min="1" max="20" value="7.5" step="0.1">
-      <span id="waveAmplitudeValue">7.5</span>
-      <br>
-      <label for="waveFrequency">Wave Frequency (2π/λ):</label>
-      <input type="range" id="waveFrequency" name="waveFrequency" min="0.05" max="1" value="0.2" step="0.01">
-      <span id="waveFrequencyValue">0.2</span>
-    </div>
   </body>
 </html>

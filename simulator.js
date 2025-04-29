@@ -184,7 +184,7 @@ function draw() {
     phaseShift = phaseCounter * 4 * PI / phaseSteps;
     stroke(0);
     fill(200);
-    rect(leftWallX - 10, wallTopY, 20, wallHeight);
+    // rect(leftWallX - 10, wallTopY, 20, wallHeight);
     rect(rightWallX - 10, wallTopY, 20, wallHeight);
     fill(0);
     ellipse(leftWallX, slit1Y, 8, 8);
