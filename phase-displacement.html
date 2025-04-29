@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Phase in Traveling Waves</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 800px;
+      margin: 2em auto;
+      line-height: 1.6;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      border: 1px solid #ccc;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Phase Displacement in Traveling Waves</h1>
+
+  <img src="wave_circle_animation.gif" alt="Traveling Wave and Circular Motion Animation">
+
+  <h2>What This Animation Shows</h2>
+  <p>This animation illustrates a fundamental concept in wave physics: the phase of a wave at any given point is a function of both <strong>position</strong> and <strong>time</strong>.</p>
+
+  <h2>Left Panel: Traveling Wave</h2>
+  <p>The left plot shows a traveling wave, typically described by the function:</p>
+  <pre>y(x, t) = A · sin(kx - ωt)</pre>
+  <p>Here, the <strong>phase</strong> <code>(kx - ωt)</code> depends on both position <code>x</code> and time <code>t</code>. Three points on the wave (red, green, blue) show how displacement changes with time at different fixed positions.</p>
+  <ul>
+    <li>Each vertical dashed line marks a fixed position along the wave.</li>
+    <li>The vertical displacement of each point varies sinusoidally over time, but not synchronously — because the phase depends on <em>where</em> the point is on the wave.</li>
+  </ul>
+
+  <h2>Right Panel: Circular Motion Analogy</h2>
+  <p>The right plot represents each point's motion as a projection of a rotating vector (phasor) around a circle. The angular position around the circle reflects the phase at each location:</p>
+  <ul>
+    <li>The red, green, and blue vectors rotate at the same angular speed (frequency), but with different initial angles, because each has a different spatial phase offset.</li>
+    <li>This helps visualize why even though all points oscillate with the same frequency, they do so out of phase with each other.</li>
+  </ul>
+
+  <h2>Conclusion</h2>
+  <p>The animation shows that in a traveling wave, <strong>the phase at each point is not only a function of time, but also of position</strong>. This is why the wave form travels through space, rather than oscillating in place.</p>
+
+</body>
+</html>
