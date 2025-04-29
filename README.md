@@ -32,6 +32,22 @@ An interactive simulation inspired by the classic double-slit experiment. It sho
 - Real-time formation of interference patterns
 - Relationship between wave properties and spatial distribution
 
+### 🌌 [3. Coherent Wave Source Interference](interference-space.html)
+
+An interactive visualization demonstrating wave interference from two coherent sources. This simulation allows you to adjust parameters like wavelength, source distance, phase shift, and amplitude ratio to explore their effects on resulting wave patterns.
+
+**Adjustable parameters:**
+- Wavelength of the waves
+- Distance between sources
+- Phase shift between sources
+- Amplitude ratio of the sources
+- Distance attenuation
+
+**Key concepts illustrated:**
+- Superposition principle in wave mechanics
+- Variation of wave patterns based on source configurations
+- Concepts of wave amplitude and phase
+
 ## Features
 
 - 🎛️ **Interactive Controls** – Modify physical parameters and immediately observe their effect on wave patterns.
@@ -58,4 +74,3 @@ Contributions are welcome! You can:
 Copyright © 2025 Salvador Fandiño (sfandino@yahoo.com)
 
 This project is licensed under the GNU General Public License (GPL). See the [LICENSE](LICENSE) file for full terms.
-
