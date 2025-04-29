@@ -7,17 +7,22 @@
     <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.min.js"></script>
     <style>
       #controls {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        background-color: white;
-        border: 1px solid #ccc;
-        padding: 10px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+          position: absolute;
+          right: 10px;
+          top: 10px;
+          background-color: white;
+          border: 1px solid #ccc;
+          padding: 10px;
+          box-shadow: 0 0 10px rgba(0,0,0,0.1);
+          z-index: 10;
       }
 
-      #fieldValues {
-        margin-top: 20px; 
+      #controls textarea {
+          width: 100%;
+          margin-top: 20px;
+          font-family: monospace;
+          font-size: 13px;
+          pointer-events: none;
       }
 
       #explanation {
@@ -75,11 +80,13 @@
       <label for="distanceScaleSlider">Distance Scale (0.01 to 5):</label>
       <input type="range" id="distanceScaleSlider" min="0.01" max="5" step="0.01" value="1">
       <span id="distanceScaleValue">1.00</span>
+
+      <br><br>
+
+      <textarea id="fieldValues" rows="4" cols="50" readonly></textarea>
     </div>
 
-    <textarea id="fieldValues" rows="4" cols="50" style="position: absolute; right: 10px; top: 180px;"></textarea>
-
-    <div id="canvas-container" style="position: relative; height: 1000px;"></div>
+    <div id="canvas-container" style="position: relative; height: 800px;"></div>
 
     <div id="explanation">
       <h2>Wave Field Visualization</h2>
@@ -115,7 +122,7 @@
       let maxAmplitude = 2;
 
       function setup() {
-          let cnv = createCanvas(1600, 1000);
+          let cnv = createCanvas(1200, 800);
           cnv.parent('canvas-container');
           colorMode(HSB, 360, 100, 100);
           noLoop();
